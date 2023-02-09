@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
+
 function Card(props) {
     return (
-        <div className="card">
+        <div className={`card ${props.wasClicked}`} id={props.name}>
             <img src={props.image} alt=""></img>
             <p>{props.name}</p>
         </div>
