@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 function Card(props) {
     return (
         <div className={`card ${props.wasClicked}`} id={props.name}>

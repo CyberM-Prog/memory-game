@@ -115,14 +115,36 @@ function CardsContainer() {
     useEffect(() => {
         const cards = document.querySelectorAll(".card");
 
-        console.log(cards);
+        let areAllClicked = true;
+
+        itemsArray.forEach((item) => {
+            if (areAllClicked === false) return;
+
+            if (item.wasClicked === "notclicked") areAllClicked = false;
+        });
+
+        if (areAllClicked) {
+            const itemsArrayCopy = [...itemsArray];
+
+            itemsArrayCopy.forEach((item) => (item.wasClicked = "notclicked"));
+
+            setItemsArray(itemsArrayCopy);
+        }
 
         function markAsClicked(card) {
-            console.log(card);
             const itemsArrayCopy = [...itemsArray];
 
             itemsArrayCopy.forEach((item) => {
-                if (card.id === item.name) item.wasClicked = "clicked";
+                if (card.id === item.name && item.wasClicked === "notclicked")
+                    item.wasClicked = "clicked";
+                else if (
+                    card.id === item.name &&
+                    item.wasClicked === "clicked"
+                ) {
+                    itemsArrayCopy.forEach(
+                        (item) => (item.wasClicked = "notclicked")
+                    );
+                }
             });
 
             setItemsArray(itemsArrayCopy);
@@ -146,7 +168,7 @@ function CardsContainer() {
                 card.removeEventListener("click", markAndShuffle);
             });
         };
-    });
+    }, [itemsArray]);
 
     return (
         <div className="cardscontainer">

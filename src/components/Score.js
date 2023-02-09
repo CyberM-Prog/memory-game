@@ -11,17 +11,24 @@ function Score() {
             setScore(score + 1);
         }
 
+        function adjustScore() {
+            if (this.classList[1] === "notclicked" && score === 15) {
+                setHighScore(16);
+                setScore(0);
+            } else if (this.classList[1] === "notclicked") incrementScore();
+            else {
+                if (score > highScore) setHighScore(score);
+                setScore(0);
+            }
+        }
+
         cards.forEach((card) => {
-            card.addEventListener("click", () => {
-                if (card.classList[1] === "notclicked") incrementScore();
-            });
+            card.addEventListener("click", adjustScore);
         });
 
         return function cleanup() {
             cards.forEach((card) => {
-                card.removeEventListener("click", () => {
-                    if (card.classList[1] === "notclicked") incrementScore();
-                });
+                card.removeEventListener("click", adjustScore);
             });
         };
     });
